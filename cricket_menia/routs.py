@@ -5,8 +5,10 @@ from cricket_menia import app
 
 @app.route('/')
 def home():
-    if 'user_id' in session:
-        return render_template('home.html')
+    # if user is loggedIn
+    if already_loggedIn():
+        return render_template('home.html', user_info = user_info(session['user_id']) , all_users = users.query.all())
+    # otherwise
     else:
         return render_template('home.html')
 
@@ -14,8 +16,7 @@ def home():
 def login():
     # if user already logged in
     if already_loggedIn():
-        user_info = user_info()
-        return render_template('home.html', user_info = user_info , all_users = users.query.all())
+        return render_template('home.html', user_info = user_info(session['user_id']) , all_users = users.query.all())
 
     # if not loggedIn
     else:
@@ -28,19 +29,20 @@ def login():
             authenticated = is_authenticated(guest_name, guest_vill)
             
             #if authenticated
-            if authenticated:
-                return render_template('home.html', user_info = authenticated.user, all_users = users.query.all())
+            if authenticated['result']:
+                session['user_id'] = authenticated['user']._id
+                return render_template('home.html', user_info = user_info(session['user_id']), all_users = users.query.all())
             
             #if village is incorrect
-            elif authenticated.msg == "Incorrect Village":
-                flash(authenticated.msg, 'danger')
+            elif authenticated['msg'] == "Incorrect Village":
+                flash(authenticated['msg'], 'danger')
                 return render_template('login_page.html')
             
             #if user not in database
             else:
                 error = 'Sorry! you are not registered'
                 flash(error, 'info')
-                return render_template('register.html')
+                return render_template('login_page.html')
 
         # if get request
         else: 
@@ -55,8 +57,10 @@ def logout():
 
 @app.route('/profile/<int:id>')
 def profile(id):
-    user_info = users.query.filter_by(_id = id).first()
-    return render_template('profile.html', user_info = user_info)
+    if session["user_id"] == id:
+        return render_template('profile.html', user_info = user_info(id), same_user = True)
+    else:
+        return render_template('profile.html', user_info = user_info(id), same_user = False)
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():

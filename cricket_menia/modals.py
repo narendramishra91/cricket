@@ -17,17 +17,21 @@ def already_loggedIn():
         return False
 
 def user_info(user_id):
-    return users.query.filter_by(_id = session['user_id']).first()
+    response = users.query.filter_by(_id = session['user_id']).first()
+    return response
 
 def is_authenticated(name, vill):
     guest = users.query.filter_by(name = name).first()
     if guest:
         if guest.vill == vill:
-            return {'result': True, 'user': guest}
-        else:        
-            return {'result':False, 'msg':"Incorrect Village"}
+            response = {'result': True, 'user': guest}
+            return response
+        else:
+            response =  {'result':False, 'msg':"Incorrect Village"}     
+            return response
     else:
-        return {'result':False, 'msg':"User not found please SignUp"}
+        response = {'result':False, 'msg':"User not found please SignUp"}
+        return response
 
 
 

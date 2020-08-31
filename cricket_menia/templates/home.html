@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% block content%}
-{% if 'user_id' in session:%}
+{% if user_info:%}
     <p style = 'margin-top: 100px'> You are Looged in as {{user_info.name}} from {{user_info.vill}}</p>
     <br>
     {% for user in all_users:%}
