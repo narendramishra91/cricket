@@ -1,5 +1,5 @@
 from flask import render_template, request, url_for, flash, session, redirect
-from cricket_menia.modals import users, add_user
+from cricket_menia.modals import users, add_user, already_loggedIn, user_info, is_authenticated
 from cricket_menia import app
 
 
@@ -12,29 +12,37 @@ def home():
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    # if user already logged in
+    if already_loggedIn():
+        user_info = user_info()
+        return render_template('home.html', user_info = user_info , all_users = users.query.all())
 
-    if 'user_id' in session:
-        user_info = users.query.filter_by(_id = session['user_id']).first()
-        return render_template('home.html', user_info = user_info, all_users = users.query.all())
-
+    # if not loggedIn
     else:
+        # if request is via Post Method
         if request.method == 'POST':
             guest_name = request.form['user_name']
-            guest = users.query.filter_by(name = guest_name).first()
-            if guest:
-                if guest.vill == request.form['village']:
-                    session['user_id'] = guest._id
-                    user_info = guest
-                    return render_template('home.html', user_info = user_info, all_users = users.query.all())
-                else:
-                    error = 'Sorry! you have entered your village wrong'
-                    flash(error, 'danger')
-                    return render_template('login_page.html')
+            guest_vill = request.form['village']
+
+            #cheak if user is authenticated
+            authenticated = is_authenticated(guest_name, guest_vill)
+            
+            #if authenticated
+            if authenticated:
+                return render_template('home.html', user_info = authenticated.user, all_users = users.query.all())
+            
+            #if village is incorrect
+            elif authenticated.msg == "Incorrect Village":
+                flash(authenticated.msg, 'danger')
+                return render_template('login_page.html')
+            
+            #if user not in database
             else:
                 error = 'Sorry! you are not registered'
                 flash(error, 'info')
-                return render_template('login_page.html')
+                return render_template('register.html')
 
+        # if get request
         else: 
             return render_template('login_page.html')
 
