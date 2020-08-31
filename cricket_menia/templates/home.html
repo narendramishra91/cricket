@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block content%}
+{% if 'user_id' in session:%}
+    <p style = 'margin-top: 100px'> You are Looged in as {{user_info.name}} from {{user_info.vill}}</p>
+    <br>
+    {% for user in all_users:%}
+        <a href="{{url_for('profile', id=user._id)}}">{{user.name}}<br></a>
+    {% endfor %}
+{% else:%}
+    <p style = 'margin-top: 100px'> You are not logged In</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html'%}
+{% block content%}
+<div class="form_container">
+    <div class="item1 item">
+        name
+    </div>
+    <div class="item2 item">
+        <form action="#" method="POST" class = 'form_content'>
+        {% with messages = get_flashed_messages()%}
+            {% if messages:%}
+                {% for message in messages: %}
+                    {{message}}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <br>
+            <input type="text" name="user_name" placeholder = 'Input Your Username'> <br>
+            <input type="text" name="village" placeholder = 'village'> <br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}

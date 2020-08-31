@@ -1,0 +1,100 @@
+*{box-sizing: border-box;
+    padding:0px;
+    margin: 0px;}
+
+.form_container{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100vh;
+}
+.item, .reg-container{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+ 
+
+.form_content{
+    padding:20px;
+    width: 50%;
+}
+
+.reg-container{
+    height: 100vh;
+}
+
+.reg-form{
+    width: 20%
+}
+
+input{
+    width: 100%;
+    margin: 5px 0px;
+    padding: 8px;
+    box-shadow: 20px, 20px, red;
+}
+
+input[type='text']{
+    border: 1px solid INDIGO;
+    box-shadow: 20px, 20px, red;
+}
+
+input[type = 'submit']{
+    background-color: #DC143C;
+    color: white;
+    margin-top: 10px;
+    border: None;
+}
+
+.my_navbar{
+    background-color: INDIGO;
+    border-radius: 0;
+}
+
+.my_navbar .navbar-brand{
+    color:white;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color:white;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #663399;
+}
+
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: #DC143C;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    color: white;
+    font-size: .8em;
+    background-color: INDIGO;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .item1{
+        display: none;
+    }
+    .form_container{
+        grid-template-columns: 1fr;
+        grid-template-rows: 80vh;
+    }
+
+    .form_content{
+        padding:10px;
+        width: 100%;
+    }
+
+    .reg-form{
+        width: 100%
+    }
+  }
