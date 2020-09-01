@@ -5,6 +5,8 @@ from cricket_menia import app
 
 @app.route('/')
 def home():
+    """ This route goes to the home page"""
+
     # if user is loggedIn
     if already_loggedIn():
         return render_template('home.html', user_info = user_info(session['user_id']) , all_users = users.query.all())
@@ -14,6 +16,8 @@ def home():
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    """ Cheaks if user is alredy looged in? if not then log the user in """
+
     # if user already logged in
     if already_loggedIn():
         return render_template('home.html', user_info = user_info(session['user_id']) , all_users = users.query.all())
@@ -51,12 +55,16 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """ Logs user out"""
+
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
 
 @app.route('/profile/<int:id>')
 def profile(id):
+    """ Returns the profile of user given id """
+
     if session["user_id"] == id:
         return render_template('profile.html', user_info = user_info(id), same_user = True)
     else:
@@ -64,6 +72,8 @@ def profile(id):
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
+    """ Register user """
+
     if request.method == 'POST':
         name = request.form['user_name']
         vill = request.form['village']
