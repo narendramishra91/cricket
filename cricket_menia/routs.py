@@ -1,5 +1,5 @@
-from flask import render_template, request, url_for, flash, session, redirect
-from cricket_menia.modals import users, add_user, already_loggedIn, user_info, is_authenticated
+from flask import render_template, request, url_for, flash, session, redirect, jsonify
+from cricket_menia.modals import users, add_user, already_loggedIn, user_info, is_authenticated, add_relation
 from cricket_menia import app
 
 
@@ -68,7 +68,7 @@ def profile(id):
     if session["user_id"] == id:
         return render_template('profile.html', user_info = user_info(id), same_user = True)
     else:
-        return render_template('profile.html', user_info = user_info(id), same_user = False)
+        return render_template('profile.html', user_info = user_info(id), same_user = False, id = id)
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -83,5 +83,16 @@ def register():
 
     else:
         return render_template('register.html')
+
+@app.route('/follow', methods =['POST'])
+def follow():
+    """
+    this route will allow user to follow
+    User1: current User, User2: to whome he is following
+    """
+    user1 = request.form['user1']
+    user2 = request.form['user2']
+    add_relation(user1, user2)
+    return jsonify(status='success')
 
 

@@ -56,3 +56,10 @@ def add_user(name, vill):
     new_user = users(name = name, vill = vill)
     db.session.add(new_user)
     db.session.commit()
+
+def add_relation(user1, user2):
+    "User1: current user, User2: to whome current user is following"
+    new_relation = Following(follower = user1, following = user2)
+    db.session.add(new_relation)
+    db.session.commit()
+

@@ -2,6 +2,6 @@
 {% block content%}
     <h1 style = 'margin-top: 100px'> the user name is {{user_info.name}} and he is from {{user_info.vill}}</h1>
 {% if not same_user:%}
-    <button> Follow </button>
+    <button type="button" class="btn" id = 'follow_button'> Follow </button>
 {% endif %}
 {% endblock %}

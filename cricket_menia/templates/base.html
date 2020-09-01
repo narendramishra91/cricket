@@ -50,4 +50,21 @@
 </div>
 
 </body>
+<script>
+  $("#follow_button").click(()=>{
+    $.ajax({
+      type: 'POST',
+      url: "/follow",
+      data: {user1: '{{session.user_id}}', user2: '{{id}}'},
+      dataType: "text",
+      success: function(status){
+        let state = JSON.parse(status)
+        if(state.status == 'success'){
+          $("#follow_button").html("following");
+          $("#follow_button").css("background-color", "yellow");
+        }
+      }
+    });
+});
+</script>
 </html>
