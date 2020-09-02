@@ -1,5 +1,6 @@
 from flask import render_template, request, url_for, flash, session, redirect, jsonify
-from cricket_menia.modals import users, add_user, already_loggedIn, user_info, is_authenticated, add_relation
+from cricket_menia.modals import users, add_user, already_loggedIn, user_info, is_authenticated, add_relation, get_data_Following
+from cricket_menia.modals import following_already
 from cricket_menia import app
 
 
@@ -65,10 +66,16 @@ def logout():
 def profile(id):
     """ Returns the profile of user given id """
 
+    # list of ids following
+    following_ids = [user.following for user in get_data_Following(session["user_id"]) ]
+
+    #list of the names of the following people
+    following =[user_info(id) for id in following_ids]
     if session["user_id"] == id:
-        return render_template('profile.html', user_info = user_info(id), same_user = True)
+        return render_template('profile.html', user_info = user_info(id), same_user = True, following = following )
     else:
-        return render_template('profile.html', user_info = user_info(id), same_user = False, id = id)
+        return render_template('profile.html', user_info = user_info(id), 
+        same_user = False, id = id, following_already = following_already(session['user_id'], id))
 
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -90,9 +97,8 @@ def follow():
     this route will allow user to follow
     User1: current User, User2: to whome he is following
     """
-    user1 = request.form['user1']
-    user2 = request.form['user2']
-    add_relation(user1, user2)
+    user1 = int(request.form['user1'])
+    user2 = int(request.form['user2'])
+    if not following_already(user1, user2):
+        add_relation(user1, user2)
     return jsonify(status='success')
-
-

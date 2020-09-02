@@ -80,6 +80,33 @@ input[type = 'submit']{
     text-align: center;
 }
 
+.profile{
+    margin-top: 100px;
+    display: grid;
+    justify-items: center;
+}
+
+.profile_image img{
+    height: 150px;
+    width: 150px;
+    border: 2px solid CRIMSON;
+    border-radius: 150px;
+}
+
+.profile-content{
+    display: grid;
+    justify-items: center;
+}
+
+.profile-content .profile-detail{
+    width: 100%
+}
+
+.profile-content .profile-username{
+    color: CRIMSON;
+    margin-top: 10px;
+}
+
 @media only screen and (max-width: 600px) {
     .item1{
         display: none;

@@ -31,7 +31,7 @@ def already_loggedIn():
 def user_info(user_id):
     """ Returs the user info for given id """
 
-    response = users.query.filter_by(_id = session['user_id']).first()
+    response = users.query.filter_by(_id = user_id).first()
     return response
 
 def is_authenticated(name, vill):
@@ -56,6 +56,17 @@ def add_user(name, vill):
     new_user = users(name = name, vill = vill)
     db.session.add(new_user)
     db.session.commit()
+
+def get_data_Following(follower):
+    response = Following.query.filter_by(follower = follower).all()
+    return response
+
+def following_already(user1, user2):
+    following = [user.following for user in get_data_Following(user1)]
+    if user2 in following:
+        return True
+    else:
+        return False
 
 def add_relation(user1, user2):
     "User1: current user, User2: to whome current user is following"

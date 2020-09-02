@@ -26,8 +26,8 @@
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
           {% if 'user_id' in session:%}
-          <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+          <li class="active"><a href="{{url_for('home')}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+          <li><a href="{{url_for('profile', id=session['user_id'])}}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
           <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Setting</a></li>
           <li><a href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout </a></li>
           {% else: %}
@@ -40,7 +40,7 @@
 
 
   
-<div class="container-fluid">
+<div class="container">
     {% block content%}
     {% endblock %}
 </div>
@@ -60,7 +60,7 @@
       success: function(status){
         let state = JSON.parse(status)
         if(state.status == 'success'){
-          $("#follow_button").html("following");
+          $("#follow_button").html("Following");
           $("#follow_button").css("background-color", "yellow");
         }
       }
